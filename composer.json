@@ -1,0 +1,23 @@
+{
+    "name": "keenan/logger",
+    "description": "Logger for Integration-web-app",
+    "type": "project",
+    "require": {
+        "monolog/monolog": "^3.2",
+        "php": "^8.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Keenan\\Logger\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Keenan-Faure",
+            "email": "keenan.asterisk@gmail.com"
+        }
+    ]
+}
