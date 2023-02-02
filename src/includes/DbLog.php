@@ -1,6 +1,7 @@
 <?php
 
-namespace Keenan\Logger;
+namespace Keenan\Logger\includes;
+use Keenan\Logger\ConsoleLog;
 
 class DbLog
 {
@@ -112,7 +113,7 @@ class DbLog
                 }
                 catch(\Exception $error)
                 {
-                    Logs::LogConsole('error', $error->getMessage());
+                    ConsoleLog::consoleLog('error', $error->getMessage());
                 }
             }
             else if($dbName == "")
@@ -126,7 +127,7 @@ class DbLog
         }
         catch(\Exception $error)
         {
-            Logs::LogConsole('warning', $error->getMessage());
+            ConsoleLog::consoleLog('warning', $error->getMessage());
         }
     }
 
@@ -165,13 +166,13 @@ class DbLog
             }
             else
             {
-                Logs::LogConsole('warning', "query cannot be null");
+                ConsoleLog::consoleLog('warning', "query cannot be null");
                 return null;
             }
         }
         catch(\Exception $error)
         {
-            Logs::LogConsole('error', $error->getMessage());
+            ConsoleLog::consoleLog('error', $error->getMessage());
             return null;
         }
     }
@@ -215,11 +216,10 @@ class DbLog
         }
         catch(\Exception $error)
         {
-            Logs::LogConsole("warning", $error->getMessage());
+            ConsoleLog::consoleLog("warning", $error->getMessage());
             exit();
         }
     }
-
 }
 
 ?>

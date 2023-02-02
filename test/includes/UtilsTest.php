@@ -2,12 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Keenan\Tests\Logger;
+namespace Keenan\Tests\Logger\includes;
 
-use Keenan\Logger\Utils;
+use Keenan\Logger\includes\Utils;
+use Keenan\Logger\includes\DbLog;
+use Keenan\Logger\includes\Logs;
+
+use Keenan\Logger\ConsoleLog;
+
 use PHPUnit\Framework\TestCase;
-use Keenan\Logger\DbLog;
-use Keenan\Logger\Logs;
 
 class UtilsTest extends TestCase
 {
@@ -41,7 +44,7 @@ class UtilsTest extends TestCase
         }
         catch(\Exception $error)
         {
-            Logs::LogConsole("error", $error->getMessage());
+            ConsoleLog::consoleLog("error", $error->getMessage());
             exit();
         }
     }

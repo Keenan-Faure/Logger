@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Keenan\Tests\Logger;
+namespace Keenan\Tests\Logger\includes;
 
 use PHPUnit\Framework\TestCase;
-use Keenan\Logger\DbLog;
+use Keenan\Logger\includes\DbLog;
 
 class DbLogTest extends TestCase
 {
@@ -60,7 +60,7 @@ class DbLogTest extends TestCase
             $this->assertObjectHasAttribute($object_attributes[$i], $dbLog);
         }
 
-        $this->assertInstanceOf("Keenan\Logger\DbLog", $dbLog);
+        $this->assertInstanceOf("Keenan\Logger\includes\DbLog", $dbLog);
     }
 
     public function testJsonConversion(): void

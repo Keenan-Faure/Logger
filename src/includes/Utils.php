@@ -1,8 +1,8 @@
 <?php
-    namespace Keenan\Logger;
 
-    use Keenan\Logger\DbLog;
-    use Keenan\Logger\Logs;
+    namespace Keenan\Logger\includes;
+
+    use Keenan\Logger\ConsoleLog;
 
     class Utils
     {
@@ -99,7 +99,7 @@
             }
             else
             {
-                Logs::LogConsole('info', "File '" . $fileName . "' does not exist at dir: " . $location);
+                ConsoleLog::consoleLog('info', "File '" . $fileName . "' does not exist at dir: " . $location);
             }
         }
 
@@ -130,7 +130,7 @@
             }
             catch(\Exception $error)
             {
-                Logs::LogConsole('warning', $error->getMessage());
+                ConsoleLog::consoleLog('warning', $error->getMessage());
             }
         }
 
@@ -155,9 +155,10 @@
             }
             catch(\Exception $error)
             {
-                Logs::LogConsole("error", $error->getMessage());
+                ConsoleLog::consoleLog("error", $error->getMessage());
             }
         }
+        
         public static function addContext($array): array
         {
             foreach($array as $key => $value)

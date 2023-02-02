@@ -3,13 +3,13 @@
 return [
     "database_credentials" => 
     [
-        "username" => "username",
-        "password" => "password",
-        "database" => "database",
+        "username" => "root",
+        "password" => "Re_Ghoul",
+        "database" => "dbAPI",
     ],
     "context" => 
     [
-        "appName" => ""
+        "appName" => "IntegrationWebApp"
     ]
 ];
 

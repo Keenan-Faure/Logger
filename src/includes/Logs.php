@@ -1,7 +1,7 @@
 <?php
     declare(strict_types=1);
 
-    namespace Keenan\Logger;
+    namespace Keenan\Logger\includes;
 
     if(isset($_SESSION))
     {
@@ -15,7 +15,7 @@
     use Monolog\Formatter\LineFormatter;
     use Monolog\Handler\StreamHandler;
 
-    use Keenan\Logger\Utils;
+    use Keenan\Logger\includes\Utils;
 
     class Logs extends Logger
     {
@@ -65,32 +65,24 @@
             }
         }
 
-        public static function LogConsole(string $level, string $message): void
+        public function LogConsole(string $message): void
         {
             try
             {
-                if(in_array(strtoupper($level), Logs::LEVELS))
+                if(in_array(strtoupper($this->level), Logs::LEVELS))
                 {
                     $context = Utils::getContext();
-                    $content = [
-                        "name" => "Logger",
-                        "useJSONFormatter" => false,
-                        "fileHandler" => false,
-                        "useStreamHandle" => true,
-                        "level" => $level
-                    ];
-                    $consoleLogger = new Logs($content);
-                    switch ($consoleLogger->level)
+                    switch ($this->level)
                     {
-                        case 'ERROR': { $consoleLogger->error($message, $context); break; }
-                        case 'INFO': { $consoleLogger->info($message, $context); break; }
-                        case 'WARNING': { $consoleLogger->warning($message, $context); break; }
-                        case 'ALERT': { $consoleLogger->alert($message, $context); break; }
+                        case 'ERROR': { $this->error($message, $context); break; }
+                        case 'INFO': { $this->info($message, $context); break; }
+                        case 'WARNING': { $this->warning($message, $context); break; }
+                        case 'ALERT': { $this->alert($message, $context); break; }
                     }
                 }
                 else
                 {
-                    throw new \Exception("Incorrect Log level: " . $level);
+                    throw new \Exception("Incorrect Log level: " . $this->level);
                 }
             }
             catch(\Exception $error)
@@ -99,30 +91,21 @@
             }
         }
 
-        //missing a message(?)
-        public static function LogDb(string $level, string $message): void
+        public function LogDb(string $message): void
         {
             try
             {
                 $context = Utils::getContext();
-                $content = [
-                    "name" => "Logger",
-                    "useJSONFormatter" => true,
-                    "fileHandler" => true,
-                    "useStreamHandle" => false,
-                    "level" => $level
-                ];
-                $dbLogger = new Logs($content);
-                switch ($dbLogger->level)
+                switch ($this->level)
                 {
-                    case 'ERROR': { $dbLogger->error($message, $context); break; }
-                    case 'INFO': { $dbLogger->info($message, $context); break; }
-                    case 'WARNING': { $dbLogger->warning($message, $context); break; }
-                    case 'ALERT': { $dbLogger->alert($message, $context); break; }
+                    case 'ERROR': { $this->error($message, $context); break; }
+                    case 'INFO': { $this->info($message, $context); break; }
+                    case 'WARNING': { $this->warning($message, $context); break; }
+                    case 'ALERT': { $this->alert($message, $context); break; }
                 }
-                $dbLog = Utils::readFile($dbLogger);
+                $dbLog = Utils::readFile($this);
                 DbLog::dbLog($dbLog);
-                Utils::removeFile($dbLogger);
+                Utils::removeFile($this);
             }
             catch(\Exception $error)
             {
@@ -143,10 +126,10 @@
                 {
                     switch ($this->level)
                     {
-                        case 'ERROR': { $stream_handler = new RotatingFileHandler(__DIR__ . "/logs/errorLog.log", 1, Level::Error); break; }
-                        case 'INFO': { $stream_handler = new RotatingFileHandler(__DIR__ . "/logs/infoLog.log", 1, Level::Info); break; }
-                        case 'WARNING': { $stream_handler = new RotatingFileHandler(__DIR__ . "/logs/warningLog.log", 1, Level::Warning); break; }
-                        case 'ALERT': { $stream_handler = new RotatingFileHandler(__DIR__ . "/logs/alertLog.log", 1, Level::Alert); break; }
+                        case 'ERROR': { $stream_handler = new RotatingFileHandler(__DIR__ . "../../logs/errorLog.log", 1, Level::Error); break; }
+                        case 'INFO': { $stream_handler = new RotatingFileHandler(__DIR__ . "../../logs/infoLog.log", 1, Level::Info); break; }
+                        case 'WARNING': { $stream_handler = new RotatingFileHandler(__DIR__ . "../../logs/warningLog.log", 1, Level::Warning); break; }
+                        case 'ALERT': { $stream_handler = new RotatingFileHandler(__DIR__ . "../../logs/alertLog.log", 1, Level::Alert); break; }
                         default:
                     }
                 }

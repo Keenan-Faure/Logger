@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Keenan\Tests\Logger;
+namespace Keenan\Tests\Logger\includes;
 
 session_start();
 
-use Keenan\Logger\Logs;
+use Keenan\Logger\includes\Logs;
 use PHPUnit\Framework\TestCase;
 
 class LogsTest extends TestCase
@@ -45,16 +45,14 @@ class LogsTest extends TestCase
         $this->assertSame(false, $log->useStreamHandle);
         $this->assertSame('ALERT', $log->level);
 
-        $this->assertInstanceOf("Keenan\Logger\Logs", $log);
-
-        Logs::LogDb('error', "Unknown error occurred");
+        $this->assertInstanceOf("Keenan\Logger\includes\Logs", $log);
     }
     public function testCreateFromJson(): void
     {
         $json = $this->setUpJson();
         $log = Logs::createFromJSON($json);
 
-        $this->assertInstanceOf("Keenan\Logger\Logs", $log);
+        $this->assertInstanceOf("Keenan\Logger\includes\Logs", $log);
         $expectedJson = '{
             "useJSONFormatter": true,
             "fileHandler": true,
