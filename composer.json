@@ -1,7 +1,7 @@
 {
     "name": "keenan/logger",
     "description": "Logger for Integration-web-app",
-    "type": "project",
+    "type": "library",
     "require": {
         "monolog/monolog": "^3.2",
         "php": "^8.2"
@@ -12,6 +12,11 @@
     "autoload": {
         "psr-4": {
             "Keenan\\Logger\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+          "Keenan\\Tests\\Logger\\": "tests/"
         }
     },
     "authors": [
