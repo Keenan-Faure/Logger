@@ -2,3 +2,4 @@
 vendor
 sqlWorkbench
 config/config.php
+logs
