@@ -6,7 +6,9 @@ Main features
 
 * Uses the composer library `Monolog/Monolog` to write logs to a file stored in `logs`.
 * Has the ability to log messages in the format 
-```%level_name% | %datetime% > %message% | %context% %extra%\n```
+```
+%level_name% | %datetime% > %message% | %context% %extra%\n
+```
 onto the console or into a file or database table Logger
 
 Installation
@@ -17,7 +19,7 @@ Via Composer:
 Documentation
 --
 
-* The libary comes with a `config.php` which can be found in ```./config/config.php``` where the database details will need to be entered
+* The libary comes with a `config.php` which can be found in `./config/config.php` where the database details will need to be entered
 
 * To enter contextual information, inside the config.php file there is a array_key called `context`. Currently only an app_name can be used as an additional field.
     - Future update will allow for more flexible context.
@@ -25,7 +27,19 @@ Documentation
 How to use
 --
 
-* If you wish to run the application simply run the functions `fileLog` `consoleLog` `dbLog` to add log the logs to a file, console and database table respectively.
+* If you wish to run the application simply run the functions 
+
+`
+FileLog::fileLog
+` 
+`
+ConsoleLog::consoleLog
+`
+`
+DatabaseLog::dbLog
+` 
+
+to add log the logs to a file, console and database table respectively.
 
 
 
