@@ -142,23 +142,46 @@
             }
             else
             {
-                 return [];
+                return [];
             }
         }
 
         public static function init_config(): void
         {
-            $_config = include(getcwd() . '/config/config.php');
-            try
+            $cwd = getcwd();
+            $lastFolder = Utils::getLastFolder($cwd);
+            if($lastFolder != 'Logger')
             {
-                $_SESSION['config'] = $_config;
+                $_config = include(getcwd() . '/vendor/keenan/logger/config/config.php');
+                try
+                {
+                    $_SESSION['config'] = $_config;
+                }
+                catch(\Exception $error)
+                {
+                    ConsoleLog::consoleLog("error", $error->getMessage());
+                }
             }
-            catch(\Exception $error)
+            else
             {
-                ConsoleLog::consoleLog("error", $error->getMessage());
+                $_config = include(getcwd() . '/config/config.php');
+                try
+                {
+                    $_SESSION['config'] = $_config;
+                }
+                catch(\Exception $error)
+                {
+                    ConsoleLog::consoleLog("error", $error->getMessage());
+                }
             }
         }
         
+        public static function getLastFolder(string $path): string
+        {
+            $folderArray = explode('/', $path);
+            return $folderArray[sizeof($folderArray)-1];
+        }
+
         public static function addContext($array): array
         {
             foreach($array as $key => $value)
