@@ -42,7 +42,7 @@
         {
             if(!Utils::chkLogLevel($data))
             {
-                Logs::LogConsole('error', "undefined level");
+                Logs::LogOut('error', "undefined level");
                 exit();
             }
 
@@ -65,7 +65,7 @@
             }
         }
 
-        public function LogConsole(string $message): void
+        public function LogOut(string $message): void
         {
             try
             {
@@ -87,7 +87,7 @@
             }
             catch(\Exception $error)
             {
-                Logs::LogConsole("error", $error->getMessage());
+                Logs::LogOut("error", $error->getMessage());
             }
         }
 
@@ -109,7 +109,7 @@
             }
             catch(\Exception $error)
             {
-                Logs::LogConsole("error", $error->getMessage());
+                Logs::LogOut("error", $error->getMessage());
             }
         }
 
@@ -126,11 +126,10 @@
                 {
                     switch ($this->level)
                     {
-                        case 'ERROR': { $stream_handler = new RotatingFileHandler(__DIR__ . "../../logs/errorLog.log", 1, Level::Error); break; }
-                        case 'INFO': { $stream_handler = new RotatingFileHandler(__DIR__ . "../../logs/infoLog.log", 1, Level::Info); break; }
-                        case 'WARNING': { $stream_handler = new RotatingFileHandler(__DIR__ . "../../logs/warningLog.log", 1, Level::Warning); break; }
-                        case 'ALERT': { $stream_handler = new RotatingFileHandler(__DIR__ . "../../logs/alertLog.log", 1, Level::Alert); break; }
-                        default:
+                        case 'ERROR': { $stream_handler = new RotatingFileHandler("logs/errorLog.log", 1, Level::Error); break; }
+                        case 'INFO': { $stream_handler = new RotatingFileHandler("logs/infoLog.log", 1, Level::Info); break; }
+                        case 'WARNING': { $stream_handler = new RotatingFileHandler("logs/warningLog.log", 1, Level::Warning); break; }
+                        case 'ALERT': { $stream_handler = new RotatingFileHandler("logs/alertLog.log", 1, Level::Alert); break; }
                     }
                 }
             }
@@ -145,7 +144,8 @@
                     $stream_handler->setFormatter(new LineFormatter
                     (
                         Logs::OUTPUT_FORMAT, Logs::DATE_FORMAT,true, true, true
-                    ));                }
+                    ));                
+                }
             }
             if($this->useStreamHandle == true)
             {
