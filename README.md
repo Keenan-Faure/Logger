@@ -5,7 +5,9 @@ Main features
 --
 
 * Uses the composer library `Monolog/Monolog` to write logs to a file stored in `logs`.
-* Has the ability to log messages in the format ```%level_name% | %datetime% > %message% | %context% %extra%\n``` onto the console or into a file or database table Logger
+* Has the ability to log messages in the format 
+```%level_name% | %datetime% > %message% | %context% %extra%\n```
+onto the console or into a file or database table Logger
 
 Installation
 --
