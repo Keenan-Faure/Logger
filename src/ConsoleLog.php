@@ -19,7 +19,7 @@ class ConsoleLog extends Logs
             "level" => $level
         ];
         $consoleLog = new Logs($logContent);
-        $consoleLog->LogConsole($message);
+        $consoleLog->LogOut($message);
     }
 }
 
