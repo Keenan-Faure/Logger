@@ -45,7 +45,8 @@ PHPUnit Tests
 ./vendor/bin/phpunit ./test/includes/
 ```
 
-Note that all tests needs to include the file `session_init.php` at the top of the script as seen below:
+Note that all tests needs to include the file `__Init.php` at the top of the script as seen below:
 `
-include('session_init.php');
+include('src/__Init.php');
+
 `
