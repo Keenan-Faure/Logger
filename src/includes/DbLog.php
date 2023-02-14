@@ -2,6 +2,7 @@
 
 namespace Keenan\Logger\includes;
 use Keenan\Logger\ConsoleLog;
+use Keenan\Logger\DatabaseLog;
 use Keenan\Logger\FileLog;
 
 class DbLog
@@ -44,86 +45,77 @@ class DbLog
     {
         try
         {
-            $username = $_SESSION['config']['database_credentials']['username'];
-            $password = $_SESSION['config']['database_credentials']['password'];
-            $dbName = $_SESSION['config']['database_credentials']['database'];
-            if(!is_null($dbName))
+            try
             {
-                try
+                $rawConn = DbLog::init__conn();
+                //may need to reconsider...
+                if($rawConn == null)
                 {
-                    $rawConn = new \mysqli('localhost', $username, $password, $dbName);
-                    $exists = DbLog::tableExist($rawConn);
-                    if($exists)
-                    {
-                        $query = 'INSERT INTO Logger
-                        (
-                            message,
-                            appName,
-                            level,
-                            level_name,
-                            channel,
-                            datetime
-                        ) 
-                        values 
-                        (
-                            "' . $dbLog->message . '", 
-                            "' . $dbLog->appName . '",
-                            "' . $dbLog->level . '",
-                            "' . $dbLog->level_name . '",
-                            "' . $dbLog->channel . '",
-                            "' . $dbLog->datetime . '"
-                        )';
-
-                        DbLog::queryDb($query, $rawConn);
-                    }
-                    else
-                    {
-                        $query = 'CREATE Table Logger
-                        (
-                            message varchar(255),
-                            appName varchar(255),
-                            level varchar(255),
-                            level_name varchar(255),
-                            channel varchar(255),
-                            datetime varchar(255)
-                        )';
-
-                        DbLog::queryDb($query, $rawConn);
-
-                        $query = 'INSERT INTO Logger
-                        (
-                            message,
-                            appName,
-                            level,
-                            level_name,
-                            channel,
-                            datetime
-                        ) 
-                        values 
-                        (
-                            "' . $dbLog->message . '", 
-                            "' . $dbLog->appName . '",
-                            "' . $dbLog->level . '",
-                            "' . $dbLog->level_name . '",
-                            "' . $dbLog->channel . '",
-                            "' . $dbLog->datetime . '"
-                        )';
-                        DbLog::queryDb($query, $rawConn);
-                    }
+                    exit();
                 }
-                catch(\Exception $error)
+                $exists = DbLog::tableExist($rawConn);
+                if($exists)
                 {
-                    ConsoleLog::consoleLog('warning', $error->getMessage());
-                    FileLog::fileLog('warning', $error->getMessage());
+                    $query = 'INSERT INTO Logger
+                    (
+                        message,
+                        appName,
+                        level,
+                        level_name,
+                        channel,
+                        datetime
+                    ) 
+                    values 
+                    (
+                        "' . $dbLog->message . '", 
+                        "' . $dbLog->appName . '",
+                        "' . $dbLog->level . '",
+                        "' . $dbLog->level_name . '",
+                        "' . $dbLog->channel . '",
+                        "' . $dbLog->datetime . '"
+                    )';
+
+                    DbLog::queryDb($query, $rawConn);
+                }
+                else
+                {
+                    $query = 'CREATE Table Logger
+                    (
+                        message varchar(255),
+                        appName varchar(255),
+                        level varchar(255),
+                        level_name varchar(255),
+                        channel varchar(255),
+                        datetime varchar(255)
+                    )';
+
+                    DbLog::queryDb($query, $rawConn);
+
+                    $query = 'INSERT INTO Logger
+                    (
+                        message,
+                        appName,
+                        level,
+                        level_name,
+                        channel,
+                        datetime
+                    ) 
+                    values 
+                    (
+                        "' . $dbLog->message . '", 
+                        "' . $dbLog->appName . '",
+                        "' . $dbLog->level . '",
+                        "' . $dbLog->level_name . '",
+                        "' . $dbLog->channel . '",
+                        "' . $dbLog->datetime . '"
+                    )';
+                    DbLog::queryDb($query, $rawConn);
                 }
             }
-            else if($dbName == "")
+            catch(\Exception $error)
             {
-                throw new \Exception("Cannot use an empty string as a database name");
-            }
-            else
-            {
-                throw new \Exception("Invalid Database Name");
+                ConsoleLog::consoleLog('warning', $error->getMessage());
+                FileLog::fileLog('warning', $error->getMessage());
             }
         }
         catch(\Exception $error)
@@ -181,15 +173,16 @@ class DbLog
         }
     }
 
-    public static function queryDb(string $query, \mysqli $rawConn): ?array
+    /**
+     * @return DbLog[]
+     */
+    public static function queryDb(string $query, \mysqli $rawConn): array
     {
         try
         {
             $output = array();
-            $resultArray = array();
             if($result = mysqli_query($rawConn, $query))
             {
-                $array = array();
                 if(is_bool($result))
                 {
                     if($result)
@@ -202,13 +195,9 @@ class DbLog
                 {
                     while($row = $result->fetch_object())
                     {
-                        $array = $row;
-                        array_push($resultArray, $array);
-                    }
-                    for($i = 0; $i < sizeof($resultArray); ++$i)
-                    {
-                        array_push($output, $resultArray[$i]);
-                    }    
+                        $dbLog = DbLog::createFromJson(json_encode($row));
+                        array_push($output, $dbLog);
+                    } 
                     return $output;
                 }
             }
@@ -222,7 +211,29 @@ class DbLog
         {
             ConsoleLog::consoleLog("warning", $error->getMessage());
             FileLog::fileLog('warning', $error->getMessage());
-            exit();
+        }
+    }
+
+    public static function init__conn(): ?\mysqli
+    {
+        if(isset($_SESSION))
+        {
+            $username = $_SESSION['config']['database_credentials']['username'];
+            $password = $_SESSION['config']['database_credentials']['password'];
+            $dbName = $_SESSION['config']['database_credentials']['database'];
+            try
+            {
+                return new \mysqli('localhost', $username, $password, $dbName);
+            }
+            catch(\Exception $error)
+            {
+                DatabaseLog::databaseLog('error', $error->getMessage());
+            }
+        }
+        else
+        {
+            FileLog::fileLog('warning', 'No session found');
+            return null;
         }
     }
 }
