@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Keenan\Tests\Logger\includes;
 
+include('session_init.php');
+
 use Keenan\Logger\includes\Utils;
 use Keenan\Logger\includes\DbLog;
 use Keenan\Logger\includes\Logs;
@@ -112,7 +114,7 @@ class UtilsTest extends TestCase
 
         Utils::removeFile($log);
 
-        $dir = '/src/logs';
+        $dir = '/logs';
         $filter = scandir(getcwd() . $dir);
         $fileName = Utils::getLogFile($log);
 

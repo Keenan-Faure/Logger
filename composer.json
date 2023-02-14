@@ -24,5 +24,8 @@
             "name": "Keenan-Faure",
             "email": "keenan.asterisk@gmail.com"
         }
+    ],
+    "license": [
+        "GPL-3.0-or-later"
     ]
 }

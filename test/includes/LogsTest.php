@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Keenan\Tests\Logger\includes;
 
-session_start();
+include('session_init.php');
 
 use Keenan\Logger\includes\Logs;
 use PHPUnit\Framework\TestCase;

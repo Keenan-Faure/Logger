@@ -3,6 +3,8 @@
     namespace Keenan\Logger\includes;
 
     use Keenan\Logger\ConsoleLog;
+    use Keenan\Logger\FileLog;
+
 
     class Utils
     {
@@ -88,7 +90,7 @@
 
         public static function removeFile(Logs $log): void
         {
-            $dir = '/src/logs';
+            $dir = '/logs';
             $filter = scandir(getcwd() . $dir);
             $location = getcwd() . $dir;
             $fileName = Utils::getLogFile($log);
@@ -99,7 +101,7 @@
             }
             else
             {
-                ConsoleLog::consoleLog('info', "File '" . $fileName . "' does not exist at dir: " . $location);
+                ConsoleLog::consoleLog('warning', "File '" . $fileName . "' does not exist at dir: " . $location);
             }
         }
 
@@ -115,7 +117,7 @@
         {
             try
             {
-                $dir = '/src/logs';
+                $dir = '/logs';
                 $location = getcwd() . $dir;
                 $fileName = Utils::getLogFile($log);
                 $myFile = fopen($location . '/' . $fileName, "r") or throw new \Exception("File does not exist");
@@ -159,7 +161,7 @@
                 }
                 catch(\Exception $error)
                 {
-                    ConsoleLog::consoleLog("error", $error->getMessage());
+                    ConsoleLog::consoleLog("warning", $error->getMessage());
                 }
             }
             else
@@ -171,7 +173,7 @@
                 }
                 catch(\Exception $error)
                 {
-                    ConsoleLog::consoleLog("error", $error->getMessage());
+                    ConsoleLog::consoleLog("warning", $error->getMessage());
                 }
             }
         }

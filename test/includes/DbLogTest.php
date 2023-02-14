@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Keenan\Tests\Logger\includes;
 
+include('session_init.php');
+
 use PHPUnit\Framework\TestCase;
 use Keenan\Logger\includes\DbLog;
 
@@ -57,7 +59,7 @@ class DbLogTest extends TestCase
 
         for($i = 0; $i < sizeof($object_attributes); ++$i)
         {
-            $this->assertObjectHasAttribute($object_attributes[$i], $dbLog);
+            $this->assertArrayHasKey($object_attributes[$i], json_decode(json_encode($dbLog), true));
         }
 
         $this->assertInstanceOf("Keenan\Logger\includes\DbLog", $dbLog);

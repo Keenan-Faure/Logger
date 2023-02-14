@@ -2,6 +2,7 @@
 
 namespace Keenan\Logger\includes;
 use Keenan\Logger\ConsoleLog;
+use Keenan\Logger\FileLog;
 
 class DbLog
 {
@@ -107,13 +108,13 @@ class DbLog
                             "' . $dbLog->channel . '",
                             "' . $dbLog->datetime . '"
                         )';
-
                         DbLog::queryDb($query, $rawConn);
                     }
                 }
                 catch(\Exception $error)
                 {
-                    ConsoleLog::consoleLog('error', $error->getMessage());
+                    ConsoleLog::consoleLog('warning', $error->getMessage());
+                    FileLog::fileLog('warning', $error->getMessage());
                 }
             }
             else if($dbName == "")
@@ -128,6 +129,7 @@ class DbLog
         catch(\Exception $error)
         {
             ConsoleLog::consoleLog('warning', $error->getMessage());
+            FileLog::fileLog('warning', $error->getMessage());
         }
     }
 
@@ -167,12 +169,14 @@ class DbLog
             else
             {
                 ConsoleLog::consoleLog('warning', "query cannot be null");
+                FileLog::fileLog('warning', 'query cannot be null');
                 return null;
             }
         }
         catch(\Exception $error)
         {
-            ConsoleLog::consoleLog('error', $error->getMessage());
+            ConsoleLog::consoleLog('warning', $error->getMessage());
+            FileLog::fileLog('warning', $error->getMessage());
             return null;
         }
     }
@@ -217,6 +221,7 @@ class DbLog
         catch(\Exception $error)
         {
             ConsoleLog::consoleLog("warning", $error->getMessage());
+            FileLog::fileLog('warning', $error->getMessage());
             exit();
         }
     }

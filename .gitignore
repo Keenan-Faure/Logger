@@ -3,3 +3,4 @@ vendor
 sqlWorkbench
 config/config.php
 logs
+issues.md
