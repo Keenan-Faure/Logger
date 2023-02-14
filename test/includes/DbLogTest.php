@@ -3,8 +3,9 @@
 declare(strict_types=1);
 
 namespace Keenan\Tests\Logger\includes;
+use Keenan\Logger\includes\Utils;
 
-include('session_init.php');
+include(Utils::getInit());
 
 use PHPUnit\Framework\TestCase;
 use Keenan\Logger\includes\DbLog;

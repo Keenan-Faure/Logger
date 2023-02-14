@@ -1,11 +1,10 @@
-<?php    
+<?php   
+    
     use Keenan\Logger\includes\Utils;
     use Keenan\Logger\FileLog;
     if(!isset($_SESSION) || !isset($_SESSION['config']))
     {
-        //starts session
         session_start();
-
         $cwd = getcwd();
         $lastFolder = Utils::getLastFolder($cwd);
         if($lastFolder != 'Logger')

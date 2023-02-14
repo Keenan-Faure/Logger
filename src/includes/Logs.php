@@ -3,10 +3,8 @@
 
     namespace Keenan\Logger\includes;
 
-    if(isset($_SESSION))
-    {
-        Utils::init_config();
-    }
+    use Keenan\Logger\includes\Utils;
+    include(Utils::getInit());
 
     use Monolog\Level;
     use Monolog\Logger;
@@ -14,8 +12,6 @@
     use Monolog\Formatter\JsonFormatter;
     use Monolog\Formatter\LineFormatter;
     use Monolog\Handler\StreamHandler;
-
-    use Keenan\Logger\includes\Utils;
 
     class Logs extends Logger
     {

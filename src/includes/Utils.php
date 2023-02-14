@@ -4,8 +4,7 @@
 
     use Keenan\Logger\ConsoleLog;
     use Keenan\Logger\FileLog;
-
-
+    
     class Utils
     {
         public static function chkArrayString($array, $key): ?string
@@ -102,6 +101,7 @@
             else
             {
                 ConsoleLog::consoleLog('warning', "File '" . $fileName . "' does not exist at dir: " . $location);
+                FileLog::fileLog('warning', "File '" . $fileName . "' does not exist at dir: " . $location);
             }
         }
 
@@ -133,6 +133,7 @@
             catch(\Exception $error)
             {
                 ConsoleLog::consoleLog('warning', $error->getMessage());
+                FileLog::fileLog('warning', $error->getMessage());
             }
         }
 
@@ -162,6 +163,7 @@
                 catch(\Exception $error)
                 {
                     ConsoleLog::consoleLog("warning", $error->getMessage());
+                    FileLog::fileLog('warning', $error->getMessage());
                 }
             }
             else
@@ -174,6 +176,7 @@
                 catch(\Exception $error)
                 {
                     ConsoleLog::consoleLog("warning", $error->getMessage());
+                    FileLog::fileLog('warning', $error->getMessage());
                 }
             }
         }
@@ -205,6 +208,25 @@
                 }
             }
             return $array;
+        }
+        /**
+         * returns the directory of the __Init.php file respective to 
+         * the cwd
+         */
+        public static function getInit(): string
+        {
+            $cwd = getcwd();
+            $lastFolder = Utils::getLastFolder($cwd);
+            if($lastFolder != 'Logger')
+            {
+                $init = $cwd . '/vendor/keenan/logger/src/__Init.php';
+                return $init;
+            }
+            else
+            {
+                $init = $cwd . '/src/__Init.php';
+                return $init;
+            }
         }
     }
 ?>
