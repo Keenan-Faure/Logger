@@ -46,7 +46,7 @@ PHPUnit Tests
 ```
 
 Note that all tests needs to include the file `__Init.php` at the top of the script as seen below:
-`
+```
 use Keenan\Logger\includes\Utils;
 include('src/__Init.php');
-`
+```
