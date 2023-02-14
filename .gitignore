@@ -1,6 +1,6 @@
 .vscode
 vendor
 sqlWorkbench
-config/config.php
+config
 logs
 issues.md
