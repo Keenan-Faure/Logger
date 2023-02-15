@@ -214,6 +214,51 @@ class DbLog
         }
     }
 
+    public static function queryDbOther(string $query, \mysqli $rawConn): ?array
+    {
+        try
+        {
+            $output = array();
+            $resultArray = array();
+            if($result = mysqli_query($rawConn, $query))
+            {
+                $array = array();
+                if(is_bool($result))
+                {
+                    if($result)
+                    {
+                        array_push($output, $result);
+                        return $output;
+                    }
+                }
+                else
+                {
+                    while($row = $result->fetch_object())
+                    {
+                        $array = $row;
+                        array_push($resultArray, $array);
+                    }
+                    for($i = 0; $i < sizeof($resultArray); ++$i)
+                    {
+                        array_push($output, $resultArray[$i]);
+                    }    
+                    return $output;
+                }
+            }
+            else
+            {
+                array_push($output, $result);
+                return $output;
+            }
+        }
+        catch(\Exception $error)
+        {
+            ConsoleLog::consoleLog("warning", $error->getMessage());
+            FileLog::fileLog('warning', $error->getMessage());
+            exit();
+        }
+    }
+
     public static function init__conn(): ?\mysqli
     {
         if(isset($_SESSION))
