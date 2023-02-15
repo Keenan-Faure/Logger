@@ -5,31 +5,13 @@
     if(!isset($_SESSION) || !isset($_SESSION['config']))
     {
         session_start();
-        $cwd = getcwd();
-        $lastFolder = Utils::getLastFolder($cwd);
-        if($lastFolder != 'Logger')
+        try
         {
-            $_config = include(getcwd() . '/vendor/keenan/logger/config/config.php');
-            try
-            {
-                $_SESSION['config'] = $_config;
-            }
-            catch(\Exception $error)
-            {
-                FileLog::fileLog("warning", $error->getMessage());
-            }
+            $_config = include(Utils::createFolderMap() . '/vendor/keenan/logger/config/config.php');
         }
-        else
+        catch(\Exception $error)
         {
-            $_config = include(getcwd() . '/config/config.php');
-            try
-            {
-                $_SESSION['config'] = $_config;
-            }
-            catch(\Exception $error)
-            {
-                FileLog::fileLog("warning", $error->getMessage());
-            }
+            FileLog::fileLog('warning', $error->getMessage());
         }
     }
 ?>

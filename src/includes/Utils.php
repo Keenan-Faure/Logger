@@ -215,18 +215,41 @@
          */
         public static function getInit(): string
         {
-            $cwd = getcwd();
-            $lastFolder = Utils::getLastFolder($cwd);
-            if($lastFolder != 'Logger')
+            $url = Utils::createFolderMap();
+            return $url . '/vendor/keenan/logger/src/__Init.php';
+        }
+
+        public static function createFolderMap(): string
+        {
+            $lastFolder = Utils::getLastFolder(getcwd());
+
+            $folderArray = explode('/', getcwd());
+            $array_keylast = array_keys($folderArray, $lastFolder)[0];
+            $preKey = 0;
+            for($i = 0; $i < sizeof($folderArray); ++$i)
             {
-                $init = $cwd . '/vendor/keenan/logger/src/__Init.php';
-                return $init;
+                if($folderArray[$array_keylast - $i] == 'src')
+                {
+                    $preKey = $array_keylast - ($i+1);
+                    break;
+                }
+            }
+            $url = '';
+            if($folderArray[0] == "")
+            {
+                for($j = 0; $j < $preKey; ++$j)
+                {
+                    $url = $url . '/'. $folderArray[$j+1];
+                }
             }
             else
             {
-                $init = $cwd . '/src/__Init.php';
-                return $init;
+                for($j = -1; $j < $preKey; ++$j)
+                {
+                    $url = $url . '/'. $folderArray[$j+1];
+                }
             }
+            return $url;
         }
     }
 ?>
