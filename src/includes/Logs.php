@@ -133,13 +133,15 @@
             {
                 if($this->useJSONFormatter == true)
                 {
-                    $stream_handler->setFormatter(new JsonFormatter());
+                    $jsonFormatter = new JsonFormatter();
+                    $jsonFormatter->includeStacktraces(true);
+                    $stream_handler->setFormatter($jsonFormatter);
                 }
                 else if($this->useJSONFormatter == false)
                 {
                     $stream_handler->setFormatter(new LineFormatter
                     (
-                        Logs::OUTPUT_FORMAT, Logs::DATE_FORMAT,true, true, true
+                        Logs::OUTPUT_FORMAT, Logs::DATE_FORMAT,true, true, true, true
                     ));                
                 }
             }
@@ -147,7 +149,7 @@
             {
                 $stream_handler->setFormatter(new LineFormatter
                 (
-                    Logs::OUTPUT_FORMAT, Logs::DATE_FORMAT,true, true, true
+                    Logs::OUTPUT_FORMAT, Logs::DATE_FORMAT,true, true, true, true
                 ));
             }
             $this->pushHandler($stream_handler);

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Keenan\Tests\Logger\includes;
 use Keenan\Logger\includes\Utils;
 
-include(Utils::getInit());
+include_once(Utils::getInit());
 
 use Keenan\Logger\includes\Logs;
 use PHPUnit\Framework\TestCase;

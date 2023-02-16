@@ -48,9 +48,11 @@ class DbLog
             try
             {
                 $rawConn = DbLog::init__conn();
-                //may need to reconsider...
+                //may need to reconsider exit()...
                 if($rawConn == null)
                 {
+                    FileLog::fileLog('warning', 'Database access denied, recheck credentials');
+                    ConsoleLog::consoleLog('warning', 'Database access denied, recheck credentials');
                     exit();
                 }
                 $exists = DbLog::tableExist($rawConn);

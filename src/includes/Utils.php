@@ -216,7 +216,16 @@
         public static function getInit(): string
         {
             $url = Utils::createFolderMap();
-            return $url . '/vendor/keenan/logger/src/__Init.php';
+            
+            $filePath = $url . '/vendor/keenan/logger/src/__Init.php';
+            if(file_exists($filePath))
+            {
+                return $filePath;
+            }
+            else
+            {
+                return $url . '/src/__Init.php';
+            }
         }
 
         public static function createFolderMap(): string
@@ -248,6 +257,14 @@
                 {
                     $url = $url . '/'. $folderArray[$j+1];
                 }
+            }
+            if($url === "")
+            {
+                for($j = 0; $j < sizeof($folderArray); ++$j)
+                {
+                    $url = $url . '/'. $folderArray[$j];
+                }
+                $url = substr($url, 1);
             }
             return $url;
         }
