@@ -8,6 +8,7 @@ use Keenan\Logger\includes\Utils;
 use Keenan\Logger\includes\DbLog;
 use Keenan\Logger\includes\Logs;
 use Keenan\Logger\ConsoleLog;
+use Keenan\Logger\FileLog;
 
 use PHPUnit\Framework\TestCase;
 
@@ -44,6 +45,7 @@ class UtilsTest extends TestCase
         catch(\Exception $error)
         {
             ConsoleLog::consoleLog("error", $error->getMessage());
+            FileLog::fileLog('warning', $error->getMessage());
             exit();
         }
     }
