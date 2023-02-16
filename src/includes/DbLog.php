@@ -177,7 +177,7 @@ class DbLog
     /**
      * @return DbLog[]
      */
-    public static function queryDb(string $query, \mysqli $rawConn): string
+    public static function queryDb(string $query, \mysqli $rawConn): array
     {
         try
         {
