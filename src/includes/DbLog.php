@@ -2,7 +2,6 @@
 
 namespace Keenan\Logger\includes;
 use Keenan\Logger\ConsoleLog;
-use Keenan\Logger\DatabaseLog;
 use Keenan\Logger\FileLog;
 
 class DbLog
@@ -178,7 +177,7 @@ class DbLog
     /**
      * @return DbLog[]
      */
-    public static function queryDb(string $query, \mysqli $rawConn): array
+    public static function queryDb(string $query, \mysqli $rawConn): string
     {
         try
         {
@@ -274,7 +273,8 @@ class DbLog
             }
             catch(\Exception $error)
             {
-                DatabaseLog::databaseLog('error', $error->getMessage());
+                FileLog::fileLog('warning', $error->getMessage());
+                return null;
             }
         }
         else

@@ -13,10 +13,12 @@
             if(file_exists($filePath))
             {
                 $_config = include($filePath);
+                $_SESSION['config'] = $_config;
             }
             else
             {
-                include($url . '/config/config.php');
+                $_config = include($url . '/config/config.php');
+                $_SESSION['config'] = $_config;
             }
         }
         catch(\Exception $error)
