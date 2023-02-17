@@ -184,6 +184,10 @@
         public static function getLastFolder(string $path): string
         {
             $folderArray = explode('/', $path);
+            if(sizeof($folderArray) == 1)
+            {
+                $folderArray = explode('\\', $path);
+            }
             return $folderArray[sizeof($folderArray)-1];
         }
 
@@ -233,17 +237,24 @@
             $lastFolder = Utils::getLastFolder(getcwd());
 
             $folderArray = explode('/', getcwd());
+            if(sizeof($folderArray) == 1)
+            {
+                $folderArray = explode('\\', getcwd());
+            }
             $array_keylast = array_keys($folderArray, $lastFolder)[0];
             $preKey = 0;
+            $foundSrc = false;
             for($i = 0; $i < sizeof($folderArray); ++$i)
             {
                 if($folderArray[$array_keylast - $i] == 'src')
                 {
                     $preKey = $array_keylast - ($i+1);
+                    $foundSrc = true;
                     break;
                 }
             }
             $url = '';
+            //Mac computers first folder is blank {{Users}}
             if($folderArray[0] == "")
             {
                 for($j = 0; $j < $preKey; ++$j)
@@ -251,19 +262,24 @@
                     $url = $url . '/'. $folderArray[$j+1];
                 }
             }
-            else
+            //If the src was found but the OS is windows
+            else if($foundSrc === true && $url === "")
             {
                 for($j = -1; $j < $preKey; ++$j)
                 {
                     $url = $url . '/'. $folderArray[$j+1];
                 }
             }
-            if($url === "")
+            if($url === "" && $foundSrc === false)
             {
                 for($j = 0; $j < sizeof($folderArray); ++$j)
                 {
                     $url = $url . '/'. $folderArray[$j];
                 }
+                $url = substr($url, 1);
+            }
+            if(substr($url, 0, 1) == '/' || substr($url, 0, 1) == '\\')
+            {
                 $url = substr($url, 1);
             }
             return $url;

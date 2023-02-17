@@ -212,10 +212,11 @@ class DbLog
         {
             ConsoleLog::consoleLog("warning", $error->getMessage());
             FileLog::fileLog('warning', $error->getMessage());
+            return [];
         }
     }
 
-    public static function queryDbOther(string $query, \mysqli $rawConn): ?array
+    public static function queryDbOther(string $query, \mysqli $rawConn): array
     {
         try
         {
@@ -256,7 +257,7 @@ class DbLog
         {
             ConsoleLog::consoleLog("warning", $error->getMessage());
             FileLog::fileLog('warning', $error->getMessage());
-            exit();
+            return [];
         }
     }
 
