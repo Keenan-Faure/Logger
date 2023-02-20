@@ -278,7 +278,7 @@
                 }
                 $url = substr($url, 1);
             }
-            if(substr($url, 0, 1) == '/' || substr($url, 0, 1) == '\\')
+            if(substr($url, 0, 1) == '\\')
             {
                 $url = substr($url, 1);
             }

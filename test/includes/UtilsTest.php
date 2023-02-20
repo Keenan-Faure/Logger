@@ -106,6 +106,7 @@ class UtilsTest extends TestCase
             $this->assertIsArray($actual);
         }
         //cannot perform any assertions because the table dne
+        //if table was create - run tests again
     }
     public function testRemoveFile(): void
     {
@@ -204,6 +205,8 @@ class UtilsTest extends TestCase
         {
             $query = 'CREATE Table Logger
             (
+                ID int AUTO_INCREMENT primary key NOT NULL,
+                appName varchar(255),
                 message varchar(255), 
                 level varchar(255),
                 level_name varchar(255),
@@ -214,6 +217,7 @@ class UtilsTest extends TestCase
 
             $query = "INSERT INTO Logger
             (
+                appName,
                 message, 
                 level, 
                 level_name, 
@@ -222,6 +226,7 @@ class UtilsTest extends TestCase
             ) 
             VALUES
             (
+                'appName',
                 'message',
                 '999',
                 'level_name',
@@ -241,11 +246,12 @@ class UtilsTest extends TestCase
                 )
             );       
             $expectedResult = '{
+                "appName": "appName",
                 "message": "message",
                 "level": 999,
                 "level_name": "LEVEL_NAME",
                 "channel": "channel",
-                "dateTime": "dateTimeString"
+                "datetime": "dateTimeString"
             }';
 
             $this->assertJsonStringEqualsJsonString($expectedResult, $data);

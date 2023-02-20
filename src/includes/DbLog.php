@@ -82,6 +82,7 @@ class DbLog
                 {
                     $query = 'CREATE Table Logger
                     (
+                        ID int AUTO_INCREMENT primary key NOT NULL, 
                         message varchar(255),
                         appName varchar(255),
                         level varchar(255),
