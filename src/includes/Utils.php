@@ -285,6 +285,7 @@
                     $url = substr($url, 1);
                 }
             }
+            return $url;
         }
     }
 ?>
