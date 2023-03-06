@@ -118,6 +118,16 @@
                 {
                     $stream_handler = new StreamHandler("php://stdout");
                 }
+                else if($this->fileHandler == true && $this->useJSONFormatter == true)
+                {
+                    switch ($this->level)
+                    {
+                        case 'ERROR': { $stream_handler = new RotatingFileHandler("logs/dbLogs/errorLog.log", 1, Level::Error); break; }
+                        case 'INFO': { $stream_handler = new RotatingFileHandler("logs/dbLogs/infoLog.log", 1, Level::Info); break; }
+                        case 'WARNING': { $stream_handler = new RotatingFileHandler("logs/dbLogs/warningLog.log", 1, Level::Warning); break; }
+                        case 'ALERT': { $stream_handler = new RotatingFileHandler("logs/dbLogs/alertLog.log", 1, Level::Alert); break; }
+                    }
+                }
                 else if($this->fileHandler == true)
                 {
                     switch ($this->level)

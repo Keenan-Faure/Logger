@@ -18,8 +18,8 @@ class FileLog extends Logs
             "useStreamHandle" => true,
             "level" => $level
         ];
-        $consoleLog = new Logs($logContent);
-        $consoleLog->LogOut($message);
+        $fileLog = new Logs($logContent);
+        $fileLog->LogOut($message);
     }
 }
 

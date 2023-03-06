@@ -89,7 +89,7 @@
 
         public static function removeFile(Logs $log): void
         {
-            $dir = '/logs';
+            $dir = '/logs/dbLogs';
             $filter = scandir(getcwd() . $dir);
             $location = getcwd() . $dir;
             $fileName = Utils::getLogFile($log);
@@ -117,7 +117,7 @@
         {
             try
             {
-                $dir = '/logs';
+                $dir = '/logs/dbLogs';
                 $location = getcwd() . $dir;
                 $fileName = Utils::getLogFile($log);
                 $myFile = fopen($location . '/' . $fileName, "r") or throw new \Exception("File does not exist");

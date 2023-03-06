@@ -18,8 +18,8 @@ class DatabaseLog extends Logs
             "useStreamHandle" => false,
             "level" => $level
         ];
-        $consoleLog = new Logs($logContent);
-        $consoleLog->LogDb($message);
+        $databaseLog = new Logs($logContent);
+        $databaseLog->LogDb($message);
     }
 }
 
