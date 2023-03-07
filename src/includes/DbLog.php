@@ -131,7 +131,7 @@ class DbLog
     {
         $query = "SHOW TABLES";
         $tables = DbLog::queryDbTable($query, $rawConn);
-        if(in_array("Logger", $tables))
+        if(in_array("Logger", $tables) || in_array("logger", $tables)) //for windows and Linux users
         {
             return true;
         }
